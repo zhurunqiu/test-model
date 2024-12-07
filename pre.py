@@ -1,14 +1,14 @@
-
 import streamlit as st
+pip install joblib
 import joblib
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+
 # Load the model
 model = joblib.load('XGBoost.pkl')
 
 # Define feature options
-
 cp_options = {    
     1: 'Typical angina (1)',    
     2: 'Atypical angina (2)',    
@@ -29,54 +29,45 @@ thal_options = {
     1: 'Normal (1)',    
     2: 'Fixed defect (2)',    
     3: 'Reversible defect (3)'}
+
 # Define feature names
 feature_names = [    
     "Age", "Sex", "Chest Pain Type", "Resting Blood Pressure", "Serum Cholesterol",    
     "Fasting Blood Sugar", "Resting ECG", "Max Heart Rate", "Exercise Induced Angina",    
-    "ST Depression", "Slope", "Number of Vessels", "Thal"]
+    "ST Depression", "Slope", "Number of Vessels", "Thal"
+]
 
 # Streamlit user interface
-
 st.title("Heart Disease Predictor")
 
 # age: numerical input
-
 age = st.number_input("Age:", min_value=1, max_value=120, value=50)
 
 # sex: categorical selection
-
 sex = st.selectbox("Sex (0=Female, 1=Male):", options=[0, 1], format_func=lambda x: 'Female (0)' if x == 0 else 'Male (1)')
 
 # cp: categorical selection
-
 cp = st.selectbox("Chest pain type:", options=list(cp_options.keys()), format_func=lambda x: cp_options[x])
 
 # trestbps: numerical input
-
 trestbps = st.number_input("Resting blood pressure (trestbps):", min_value=50, max_value=200, value=120)
 
 # chol: numerical input
-
 chol = st.number_input("Serum cholesterol in mg/dl (chol):", min_value=100, max_value=600, value=200)
 
 # fbs: categorical selection
-
 fbs = st.selectbox("Fasting blood sugar > 120 mg/dl (fbs):", options=[0, 1], format_func=lambda x: 'False (0)' if x == 0 else 'True (1)')
 
 # restecg: categorical selection
-
 restecg = st.selectbox("Resting electrocardiographic results:", options=list(restecg_options.keys()), format_func=lambda x: restecg_options[x])
 
 # thalach: numerical input
-
 thalach = st.number_input("Maximum heart rate achieved (thalach):", min_value=50, max_value=250, value=150)
 
 # exang: categorical selection
-
 exang = st.selectbox("Exercise induced angina (exang):", options=[0, 1], format_func=lambda x: 'No (0)' if x == 0 else 'Yes (1)')
 
 # oldpeak: numerical input
-
 oldpeak = st.number_input("ST depression induced by exercise relative to rest (oldpeak):", min_value=0.0, max_value=10.0, value=1.0)
 
 # slope: categorical selection
@@ -90,12 +81,8 @@ ca = st.number_input("Number of major vessels colored by fluoroscopy (ca):", min
 thal = st.selectbox("Thal (thal):", options=list(thal_options.keys()), format_func=lambda x: thal_options[x])
 
 # Process inputs and make predictions
-
 feature_values = [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
-
 features = np.array([feature_values])
-
-import streamlit as st
 
 if st.button("Predict"):
     # Predict class and probabilities
