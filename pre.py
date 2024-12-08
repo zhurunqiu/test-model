@@ -38,7 +38,7 @@ feature_names = [
 ]
 
 # Streamlit user interface
-st.title("Heart Disease Predictor")
+st.title("Occult Lymph Node Metastasis Predictor")
 
 # age: numerical input
 age = st.number_input("Age:", min_value=1, max_value=120, value=50)
@@ -98,16 +98,16 @@ if st.button("Predict"):
 
     if predicted_class == 1:
         advice = (
-            f"According to our model, you have a high risk of heart disease. "
-            f"The model predicts that your probability of having heart disease is {probability:.1f}%. "
+            f"Dear Doctor/Patient, according to our model, you have a high risk of occult lymph node metastasis. "
+            f"The model predicts that your probability of having occult lymph node metastasis is {probability:.1f}%. "
             "While this is just an estimate, it suggests that you may be at significant risk. "
-            "I recommend that you consult a cardiologist as soon as possible for further evaluation and "
-            "to ensure you receive an accurate diagnosis and necessary treatment."
+            "I recommend that you receive neck dissection, this procedure is intended to remove any potentially affected lymph nodes in the neck region, "
+            "which may help prevent the spread of cancer and improve your overall prognosis."
         )
     else:
         advice = (
-            f"According to our model, you have a low risk of heart disease. "
-            f"The model predicts that your probability of not having heart disease is {probability:.1f}%. "
+            f"Dear Doctor/Patient, according to our model, you have a low risk of occult lymph node metastasis. "
+            f"The model predicts that your probability of not having occult lymph node metastasis is {probability:.1f}%. "
             "However, maintaining a healthy lifestyle is still very important. "
             "I recommend regular check-ups to monitor your heart health, "
             "and to seek medical advice promptly if you experience any symptoms."
