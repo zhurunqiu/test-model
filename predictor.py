@@ -51,7 +51,7 @@ PNI = st.selectbox("PNI:", options=[0, 1], format_func=lambda x: 'NO (0)' if x =
 LVI = st.selectbox("LVI:", options=[0, 1], format_func=lambda x: 'NO (0)' if x == 0 else 'Yes (1)')
 
 # Process inputs and make predictions
-feature_values = [Size, DOI, TT, TB, BASO%, NLR, Grade, PNI, LVI]
+feature_values = [Size, DOI, TT, TB, BASO, NLR, Grade, PNI, LVI]
 features = np.array([feature_values])
 
 if st.button("Predict"):
