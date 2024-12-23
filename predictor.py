@@ -16,14 +16,14 @@ Grade_options = {
 
 # Define feature names
 feature_names = [    
-    "Tumor Size", "DOI", "Tumor Thickness", "Tumor Budding", "BASO%",    
-    "Neutrophil-to-Lymphocyte Ratio", "Tumor Grade", "PNI", "LVI"
+    "Size", "DOI", "TT", "TB", "BASO%",    
+    "NLR", "Grade", "PNI", "LVI"
 ]
 
 # Streamlit user interface
-st.title("Occult Lymph Node Metastasis Predictor")
+st.title("OLNM Predictor")
 
-# size: numerical input
+# Size: numerical input
 Size = st.number_input("Tumor Size (mm):", min_value=1, max_value=40, value=10)
 
 # DOI: numerical input
@@ -51,7 +51,7 @@ PNI = st.selectbox("PNI:", options=[0, 1], format_func=lambda x: 'NO (0)' if x =
 LVI = st.selectbox("LVI:", options=[0, 1], format_func=lambda x: 'NO (0)' if x == 0 else 'Yes (1)')
 
 # Process inputs and make predictions
-feature_values = [size, DOI, TT, TB, BASO%, NLR, Grade, PNI, LVI]
+feature_values = [Size, DOI, TT, TB, BASO%, NLR, Grade, PNI, LVI]
 features = np.array([feature_values])
 
 if st.button("Predict"):
@@ -88,12 +88,15 @@ if st.button("Predict"):
 
 # Calculate SHAP values and display force plot    
     
-    explainer = shap.TreeExplainer(model)    
+    explainer_shap = shap.TreeExplainer(model)    
     
     shap_values = explainer.shap_values(pd.DataFrame([feature_values], columns=feature_names))
-    
-    shap.force_plot(explainer.expected_value, shap_values[0], pd.DataFrame([feature_values], columns=feature_names), matplotlib=True)    
-    
-    plt.savefig("shap_force_plot.png", bbox_inches='tight', dpi=1200)
-    
-    st.image("shap_force_plot.png")
+
+    if predicted_class == 1:
+        shap.force_plot(explainer_shap.expected_value[1], shap_values[:,:,1], pd.DataFrame([feature_values], columns=feature_names), matplotlib=True)    
+    else:        
+        shap.force_plot(explainer_shap.expected_value[0], shap_values[:,:,0], pd.DataFrame([feature_values], columns=feature_names), matplotlib=True)    
+        
+    plt.savefig("shap_force_plot.png", bbox_inches='tight', dpi=1200)    
+       
+    st.image("shap_force_plot.png", caption='SHAP Force Plot Explanation')    
