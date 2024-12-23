@@ -85,12 +85,12 @@ feature_values = [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, ol
 features = np.array([feature_values])
 
 # Predict class and probabilities
-    predicted_class = model.predict(features)[0]  # Ensure this is an integer value (e.g., 0 or 1)
-    predicted_proba = model.predict_proba(features)[0]  # Array of probabilities
+predicted_class = model.predict(features)[0]  # Ensure this is an integer value (e.g., 0 or 1)
+predicted_proba = model.predict_proba(features)[0]  # Array of probabilities
 
 # Display prediction results
-    st.write(f"**Predicted Class:** {predicted_class}")
-    st.write(f"**Prediction Probabilities:** {predicted_proba}")
+st.write(f"**Predicted Class:** {predicted_class}")
+st.write(f"**Prediction Probabilities:** {predicted_proba}")
 
 # Calculate the probability of the predicted class
     probability = predicted_proba[predicted_class] * 100
