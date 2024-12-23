@@ -92,14 +92,14 @@ if st.button("Predict"):
     # Calculate the probability of the predicted class
     probability = predicted_proba[predicted_class] * 100
 
-    if predicted_class == 1:
-        advice = (
-            f"Based on feature values,  predicted possibility of OLNM is {probability:.1f}%._**"
-        )
-    else:
-        advice = (
-             f"Based on feature values,  predicted possibility of not OLNM is {probability:.1f}%._**"
-        )
+   if predicted_class == 1:
+    advice = (
+        f"**_Based on feature values, predicted possibility of OLNM is {probability:.1f}%._**"
+    )
+else:
+    advice = (
+        f"**_Based on feature values, predicted possibility of not OLNM is {probability:.1f}%._**"
+    )
 
     # Display advice
     st.write(advice)   
