@@ -86,8 +86,8 @@ features = np.array([feature_values])
 
 if st.button("Predict"):
     # 
-    predicted_class = model.predict(features)[0]  # 确保是一个整数值（如 0 或 1）
-    predicted_proba = model.predict_proba(features)[0]  # 概率数组
+    predicted_class = model.predict(features)[1]  # 确保是一个整数值（如 0 或 1）
+    predicted_proba = model.predict_proba(features)[1]  # 概率数组
 
     # 
     probability = predicted_proba[predicted_class] * 100
