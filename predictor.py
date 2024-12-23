@@ -14,14 +14,6 @@ Grade_options = {
     2: 'Moderate (2)',    
     3: 'Poor (3)'}
 
-PNI_options = {    
-    0: 'No (0)',    
-    1: 'Yes (1)'}
-
-LVI_options = {    
-    0: 'No (0)',    
-    1: 'Yes (1)'}
-
 # Define feature names
 feature_names = [    
     "Tumor Size", "DOI", "Tumor Thickness", "Tumor Budding", "BASO%",    
@@ -50,7 +42,7 @@ BASO% = st.number_input("BASO%:", min_value=0, max_value=1.5, value=0.8)
 NLR = st.number_input("Neutrophil-to-Lymphocyte Ratio:", min_value=0.00, max_value=6.00, value=3.20)
 
 # Grade: categorical selection
-Grade = st.selectbox("Tumor Grade:", options=list(restecg_options.keys()), format_func=lambda x: restecg_options[x])
+Grade = st.selectbox("Tumor Grade:", options=list(Grade_options.keys()), format_func=lambda x: Grade_options[x])
 
 # PNI: categorical selection
 PNI = st.selectbox("PNI:", options=[0, 1], format_func=lambda x: 'NO (0)' if x == 0 else 'Yes (1)')
