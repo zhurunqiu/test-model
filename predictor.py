@@ -6,82 +6,60 @@ import matplotlib.pyplot as plt
 import shap
 
 # Load the model
-model = joblib.load('XGBoost.pkl')
+model = joblib.load('RF.pkl')
 
 # Define feature options
-cp_options = {    
-    1: 'Typical angina (1)',    
-    2: 'Atypical angina (2)',    
-    3: 'Non-anginal pain (3)',    
-    4: 'Asymptomatic (4)'}
+Grade_options = {    
+    1: 'Well (1)',    
+    2: 'Moderate (2)',    
+    3: 'Poor (3)'}
 
-restecg_options = {    
-    0: 'Normal (0)',    
-    1: 'ST-T wave abnormality (1)',    
-    2: 'Left ventricular hypertrophy (2)'}
+PNI_options = {    
+    0: 'No (0)',    
+    1: 'Yes (1)'}
 
-slope_options = {    
-    1: 'Upsloping (1)',    
-    2: 'Flat (2)',    
-    3: 'Downsloping (3)'}
-
-thal_options = {    
-    1: 'Normal (1)',    
-    2: 'Fixed defect (2)',    
-    3: 'Reversible defect (3)'}
+LVI_options = {    
+    0: 'No (0)',    
+    1: 'Yes (1)'}
 
 # Define feature names
 feature_names = [    
-    "Age", "Sex", "Chest Pain Type", "Resting Blood Pressure", "Serum Cholesterol",    
-    "Fasting Blood Sugar", "Resting ECG", "Max Heart Rate", "Exercise Induced Angina",    
-    "ST Depression", "Slope", "Number of Vessels", "Thal"
+    "Tumor Size", "DOI", "Tumor Thickness", "Tumor Budding", "BASO%",    
+    "Neutrophil-to-Lymphocyte Ratio", "Tumor Grade", "PNI", "LVI"
 ]
 
 # Streamlit user interface
 st.title("Occult Lymph Node Metastasis Predictor")
 
-# age: numerical input
-age = st.number_input("Age:", min_value=1, max_value=120, value=50)
+# size: numerical input
+Size = st.number_input("Tumor Size (mm):", min_value=1, max_value=40, value=10)
 
-# sex: categorical selection
-sex = st.selectbox("Sex (0=Female, 1=Male):", options=[0, 1], format_func=lambda x: 'Female (0)' if x == 0 else 'Male (1)')
+# DOI: numerical input
+DOI = st.number_input("DOI (mm):", min_value=0.1, max_value=10.2, value=6.8)
 
-# cp: categorical selection
-cp = st.selectbox("Chest pain type:", options=list(cp_options.keys()), format_func=lambda x: cp_options[x])
+# TT: numerical input
+TT = st.number_input("Tumor Tickness (mm):", min_value=0.01, max_value=20.0, value=10.0)
 
-# trestbps: numerical input
-trestbps = st.number_input("Resting blood pressure (trestbps):", min_value=50, max_value=200, value=120)
+# TB: numerical input
+TB = st.number_input("Tumor Budding:", min_value=0, max_value=36, value=16)
 
-# chol: numerical input
-chol = st.number_input("Serum cholesterol in mg/dl (chol):", min_value=100, max_value=600, value=200)
+# BASO%: numerical input
+BASO% = st.number_input("BASO%:", min_value=0, max_value=1.5, value=0.8)
 
-# fbs: categorical selection
-fbs = st.selectbox("Fasting blood sugar > 120 mg/dl (fbs):", options=[0, 1], format_func=lambda x: 'False (0)' if x == 0 else 'True (1)')
+# NLR: numerical input
+NLR = st.number_input("Neutrophil-to-Lymphocyte Ratio:", min_value=0.00, max_value=6.00, value=3.20)
 
-# restecg: categorical selection
-restecg = st.selectbox("Resting electrocardiographic results:", options=list(restecg_options.keys()), format_func=lambda x: restecg_options[x])
+# Grade: categorical selection
+Grade = st.selectbox("Tumor Grade:", options=list(restecg_options.keys()), format_func=lambda x: restecg_options[x])
 
-# thalach: numerical input
-thalach = st.number_input("Maximum heart rate achieved (thalach):", min_value=50, max_value=250, value=150)
+# PNI: categorical selection
+PNI = st.selectbox("PNI:", options=[0, 1], format_func=lambda x: 'NO (0)' if x == 0 else 'Yes (1)')
 
-# exang: categorical selection
-exang = st.selectbox("Exercise induced angina (exang):", options=[0, 1], format_func=lambda x: 'No (0)' if x == 0 else 'Yes (1)')
-
-# oldpeak: numerical input
-oldpeak = st.number_input("ST depression induced by exercise relative to rest (oldpeak):", min_value=0.0, max_value=10.0, value=1.0)
-
-# slope: categorical selection
-
-slope = st.selectbox("Slope of the peak exercise ST segment (slope):", options=list(slope_options.keys()), format_func=lambda x: slope_options[x])
-
-# ca: numerical input
-ca = st.number_input("Number of major vessels colored by fluoroscopy (ca):", min_value=0, max_value=4, value=0)
-
-# thal: categorical selection
-thal = st.selectbox("Thal (thal):", options=list(thal_options.keys()), format_func=lambda x: thal_options[x])
+# LVI: categorical selection
+LVI = st.selectbox("LVI:", options=[0, 1], format_func=lambda x: 'NO (0)' if x == 0 else 'Yes (1)')
 
 # Process inputs and make predictions
-feature_values = [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
+feature_values = [size, DOI, TT, TB, BASO%, NLR, Grade, PNI, LVI]
 features = np.array([feature_values])
 
 if st.button("Predict"):
