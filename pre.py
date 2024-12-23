@@ -84,25 +84,36 @@ thal = st.selectbox("Thal (thal):", options=list(thal_options.keys()), format_fu
 feature_values = [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
 features = np.array([feature_values])
 
-if st.button("Predict"):
-    # Predict class and probabilities
+# Predict class and probabilities
     predicted_class = model.predict(features)[0]  # Ensure this is an integer value (e.g., 0 or 1)
     predicted_proba = model.predict_proba(features)[0]  # Array of probabilities
+
+    # Display prediction results
+    st.write(f"**Predicted Class:** {predicted_class}")
+    st.write(f"**Prediction Probabilities:** {predicted_proba}")
 
     # Calculate the probability of the predicted class
     probability = predicted_proba[predicted_class] * 100
 
-   if predicted_class == 1:
-    advice = (
-        f"**_Based on feature values, predicted possibility of OLNM is {probability:.1f}%._**"
-    )
-else:
-    advice = (
-        f"**_Based on feature values, predicted possibility of not OLNM is {probability:.1f}%._**"
-    )
+    if predicted_class == 1:
+        advice = (
+            f"According to our model, you have a high risk of occult lymph node metastasis. "
+            f"The model predicts that your probability of having occult lymph node metastasis is {probability:.1f}%. "
+            "While this is just an estimate, it suggests that you may be at significant risk. "
+            "I recommend that you receive neck dissection, this procedure is intended to remove any potentially affected lymph nodes in the neck region, "
+            "which may help prevent the spread of cancer and improve your overall prognosis."
+        )
+    else:
+        advice = (
+            f"According to our model, you have a low risk of occult lymph node metastasis. "
+            f"The model predicts that your probability of not having occult lymph node metastasis is {probability:.1f}%. "
+            "However, maintain a healthy lifestyle is still very important. "
+            "I recommend regular check-ups to monitor your health, "
+            "and to seek medical advice promptly if you experience any symptoms."
+        )
 
     # Display advice
-    st.write(advice)   
+    st.write(advice)
 
 # Calculate SHAP values and display force plot    
     
